@@ -1,0 +1,29 @@
+stages:
+  - install
+  - test
+  - deploy
+
+install_dependencies:
+  stage: install
+  script:
+    - echo "Instalando dependencias..."
+    - npm install
+  only:
+    - develop
+
+run_tests:
+  stage: test
+  script:
+    - echo "Ejecutando tests..."
+    - npm test
+  only:
+    - develop
+
+deploy_site:
+  stage: deploy
+  script:
+    - echo "Desplegando sitio..."
+    - rsync -av ./dist/ user@server:/var/www/html
+  only:
+    - main
+    - tags
